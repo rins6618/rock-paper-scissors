@@ -1,10 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="./style.css" rel="stylesheet">
     <meta charset="UTF-8">
     <title>R-P-S</title>
+    <script defer src="script.js"></script>
 </head>
 <body>
-    <script src="script.js"></script>
+    <div class="gui">
+        <div id="human" class="scoreboard">
+            <div> 0 </div>
+            <p>Human</p>
+        </div>
+        <div class="buttons">
+            <button id="rock" class="btn">Rock</button>
+            <button id="paper" class="btn">Paper</button>
+            <button id="scissors" class="btn">Scissors</button>
+        </div>
+        <div id="cpu" class="scoreboard">
+            <div> 0 </div>
+            <p>CPU</p>
+        </div>
+    </div>
+    <div class="result">Placeholder</div>
 </body>
 </html>

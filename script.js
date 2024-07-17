@@ -6,67 +6,66 @@ function getComputerChoice() {
         : "scissors";
 }
 
-function getHumanChoice() {
-    const valid = ["rock", "paper", "scissors"];
-    let choice = prompt("Type your choice").toLowerCase();
-    while (!valid.includes(choice)) {
-        choice = prompt("Type your choice").toLowerCase();
-    }
-
-    return choice;
-}
-
-function playRound() {
-
-    const humanChoice = getHumanChoice();
+function playRound(humanChoice) {
     const cpuChoice = getComputerChoice();
 
-    if (humanChoice === cpuChoice) {
-        console.log(`It's a draw! ${humanChoice} with ${cpuChoice}!`)
+    if (humanChoice.toLowerCase() === cpuChoice) {
+        displayMessage(`It's a draw! ${humanChoice} with ${cpuChoice}!`)
         return 0;
     }
-    switch (humanChoice) {
+    switch (humanChoice.toLowerCase()) {
         case "rock":
             if (cpuChoice === "paper") {
-                console.log(`You lose! ${cpuChoice} beats ${humanChoice}!`)
+                displayMessage(`You lose! ${humanChoice} loses to ${cpuChoice}!`)
                 return -1;
             }
-            console.log(`You win! ${humanChoice} beats ${cpuChoice}!`)
+            displayMessage(`You win! ${humanChoice} beats ${cpuChoice}!`)
             return 1;
         case "paper":
             if (cpuChoice === "scissors") {
-                console.log(`You lose! ${cpuChoice} beats ${humanChoice}!`)
+                displayMessage(`You lose! ${humanChoice} loses to ${cpuChoice}!`)
                 return -1;
             }
-            console.log(`You win! ${humanChoice} beats ${cpuChoice}!`)
+            displayMessage(`You win! ${humanChoice} beats ${cpuChoice}!`)
             return 1;
         case "scissors":
             if (cpuChoice === "rock") {
-                console.log(`You lose! ${cpuChoice} beats ${humanChoice}!`)
+                displayMessage(`You lose! ${humanChoice} loses to ${cpuChoice}!`)
                 return -1;
             }
-            console.log(`You win! ${humanChoice} beats ${cpuChoice}!`)
+            displayMessage(`You win! ${humanChoice} beats ${cpuChoice}!`)
             return 1;
     }
 }
 
-function playGame() {
-    let humanScore = 0;
-    let cpuScore = 0;
-
-    let rounds = 5;
-    while (rounds --> 0) {
-        let result = playRound();
-        if (result === 0) continue;
-        result === 1 ? humanScore++
-            : cpuScore++;
-    }
-
-    console.log(`
-    Wins: ${humanScore}\n
-    Draws: ${5 - humanScore - cpuScore}\n
-    Losses: ${cpuScore}\n`)
+function displayMessage(string) {
+    const displayDiv = document.querySelector(".result");
+    displayDiv.textContent = string;
+    console.log(string);
 }
 
-playGame()
+const rockBtn = document.querySelector("#rock");
+const paperBtn = document.querySelector("#paper");
+const scissorsBtn = document.querySelector("#scissors");
 
+let playerScore = 0;
+let cpuScore = 0;
+
+function updateScore() {
+    const cpuScoreboard = document.querySelector("#cpu div");
+    const humanScoreboard = document.querySelector("#human div");
+    humanScoreboard.textContent = playerScore.toString();
+    cpuScoreboard.textContent = cpuScore.toString();
+}
+
+function roundHandler(humanChoice, e) {
+    const roundResult = playRound(humanChoice);
+    if (roundResult === 1) playerScore++;
+    else if (roundResult === -1) cpuScore++;
+    console.log(roundResult, playerScore, cpuScore);
+    updateScore();
+}
+
+rockBtn.addEventListener("click", e => roundHandler("Rock", e));
+paperBtn.addEventListener("click", e => roundHandler("Paper", e));
+scissorsBtn.addEventListener("click", e => roundHandler("Scissors", e));
